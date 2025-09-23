@@ -18,7 +18,9 @@ export default function Home() {
 
   return (
     <main className="bg-white/70 backdrop-blur rounded-2xl p-4 sm:p-8 shadow-lg w-full max-w-4xl mx-auto">
-      <h1 className="text-2xl sm:text-3xl font-semibold mb-4">Halooo, {name}! 👋</h1>
+      <h1 className="text-2xl sm:text-3xl font-semibold mb-4">
+        Halooo, {name}! 👋
+      </h1>
       <p className="text-xs sm:text-sm text-gray-600 mb-6">
         Semoga harimu menyenangkan 🌈
       </p>
@@ -28,7 +30,7 @@ export default function Home() {
           <QuoteCard />
         </div>
         <div>
-          <GratitudeWall />
+          <GratitudeWall username={name} />
         </div>
       </div>
     </main>
