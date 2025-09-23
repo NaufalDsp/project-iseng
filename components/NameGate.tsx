@@ -16,7 +16,7 @@ export default function NameGate({
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-pink-100 via-yellow-100 to-blue-100">
+    <div className="flex flex-col items-center justify-center py-20 bg-gradient-to-br from-pink-100 via-yellow-100 to-blue-100">
       <form
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-2xl shadow-lg text-center space-y-4"

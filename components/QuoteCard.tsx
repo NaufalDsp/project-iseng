@@ -82,26 +82,26 @@ export default function QuoteBox() {
   };
 
   return (
-    <div className="p-4 rounded-xl shadow-md bg-white flex flex-col justify-between">
+    <div className="p-3 sm:p-4 rounded-xl shadow-md bg-white flex flex-col justify-between">
       {imgUrl && !loadingImg && (
         <img
           src={imgUrl}
           alt="Random wholesome"
-          className="rounded-lg w-full h-48 object-cover mb-4 transition-opacity"
+          className="rounded-lg w-full h-40 sm:h-48 object-cover mb-3 sm:mb-4 transition-opacity"
         />
       )}
       {loadingImg && (
-        <div className="w-full h-48 mb-4 flex items-center justify-center rounded-lg bg-gray-100 text-sm text-gray-500">
+        <div className="w-full h-40 sm:h-48 mb-3 sm:mb-4 flex items-center justify-center rounded-lg bg-gray-100 text-xs sm:text-sm text-gray-500">
           Memuat gambar...
         </div>
       )}
       {errorImg && <p className="text-xs text-red-500 mb-2">{errorImg}</p>}
-      <p className="italic text-lg text-gray-800">“{quote.text}”</p>
-      <p className="mt-2 text-sm text-gray-600">{quote.author}</p>
+      <p className="italic text-base sm:text-lg text-gray-800">“{quote.text}”</p>
+      <p className="mt-2 text-xs sm:text-sm text-gray-600">{quote.author}</p>
       <button
         onClick={getNewQuote}
         disabled={loadingImg}
-        className="mt-4 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="mt-4 w-full sm:w-auto px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
       >
         {loadingImg ? "Memuat..." : "Quote Baru"}
       </button>

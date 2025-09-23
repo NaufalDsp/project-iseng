@@ -1,5 +1,11 @@
 "use client";
-export default function ExportNotes({ notes, name }: { notes: string[]; name: string }) {
+export default function ExportNotes({
+  notes,
+  name,
+}: {
+  notes: string[];
+  name: string;
+}) {
   const handleExport = () => {
     const header = `✨ Catatan Semangat untuk ${name} ✨\n\n`;
     const greeting = `Halo ${name}!\nSemoga hari-harimu penuh warna, tawa, dan semangat baru 🌈💜\n\n`;
@@ -20,7 +26,7 @@ export default function ExportNotes({ notes, name }: { notes: string[]; name: st
   return (
     <button
       onClick={handleExport}
-      className="bg-blue-500 text-white px-3 py-2 rounded"
+      className="bg-blue-500 text-white px-3 py-2 rounded w-full sm:w-auto text-sm sm:text-base"
     >
       Export Catatan 🎁
     </button>
