@@ -32,13 +32,13 @@ export default function GratitudeWall() {
   }
 
   return (
-    <div className="p-6 rounded-xl border border-gray-100">
-      <h2 className="text-xl font-medium mb-2">Gratitude Wall</h2>
-      <p className="text-sm text-gray-500 mb-4">
+    <div className="p-4 sm:p-6 rounded-xl border border-gray-100">
+      <h2 className="text-lg sm:text-xl font-medium mb-2">Gratitude Wall</h2>
+      <p className="text-xs sm:text-sm text-gray-500 mb-4">
         Tulis satu hal kecil yang bikin kamu tersenyum hari ini.
       </p>
 
-      <div className="flex gap-2">
+      <div className="flex flex-col sm:flex-row gap-2">
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}
@@ -47,13 +47,13 @@ export default function GratitudeWall() {
         />
         <button
           onClick={addItem}
-          className="px-4 py-2 bg-emerald-500 text-white rounded-lg"
+          className="px-4 py-2 bg-emerald-500 text-white rounded-lg w-full sm:w-auto"
         >
           Tambahkan
         </button>
       </div>
 
-      <div className="mt-4 space-y-2 max-h-48 overflow-auto">
+      <div className="mt-4 space-y-2 max-h-56 sm:max-h-48 overflow-auto">
         {items.length === 0 ? (
           <div className="text-sm text-gray-400">
             Belum ada catatan — ayo mulai!
@@ -78,8 +78,11 @@ export default function GratitudeWall() {
         )}
       </div>
 
-      <div className="mt-4 flex gap-2">
-        <button onClick={exportTxt} className="px-3 py-2 border rounded-lg">
+      <div className="mt-4 flex flex-col sm:flex-row gap-2">
+        <button
+          onClick={exportTxt}
+          className="px-3 py-2 border rounded-lg w-full sm:w-auto"
+        >
           Export (.txt)
         </button>
         <button
@@ -89,7 +92,7 @@ export default function GratitudeWall() {
               localStorage.removeItem("gratitudes");
             }
           }}
-          className="px-3 py-2 border rounded-lg text-red-600"
+          className="px-3 py-2 border rounded-lg text-red-600 w-full sm:w-auto"
         >
           Hapus Semua
         </button>

@@ -17,13 +17,13 @@ export default function Home() {
   }
 
   return (
-    <main className="bg-white/70 backdrop-blur rounded-2xl p-8 shadow-lg">
-      <h1 className="text-3xl font-semibold mb-4">Halooo, {name}! 👋</h1>
-      <p className="text-sm text-gray-600 mb-6">
+    <main className="bg-white/70 backdrop-blur rounded-2xl p-4 sm:p-8 shadow-lg w-full max-w-4xl mx-auto">
+      <h1 className="text-2xl sm:text-3xl font-semibold mb-4">Halooo, {name}! 👋</h1>
+      <p className="text-xs sm:text-sm text-gray-600 mb-6">
         Semoga harimu menyenangkan 🌈
       </p>
 
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <QuoteCard />
         </div>
