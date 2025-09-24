@@ -34,6 +34,120 @@ const quotes = [
   { text: "Bangkit lagi, selalu ada kesempatan kedua.", author: "Anonim" },
   { text: "Rasa lelahmu hari ini akan jadi cerita esok.", author: "Anonim" },
   { text: "Kamu pantas bahagia.", author: "Anonim" },
+  { text: "Setiap langkah kecil mendekatkanmu pada tujuan.", author: "Anonim" },
+  { text: "Istirahat juga bagian dari produktivitas.", author: "Anonim" },
+  { text: "Kesalahan bukan akhir, melainkan guru terbaik.", author: "Anonim" },
+  { text: "Mulailah dari yang ada, lakukan yang kamu bisa.", author: "Anonim" },
+  { text: "Kamu tidak sendirian, selalu ada harapan.", author: "Anonim" },
+  { text: "Prosesmu unik, hargai ritmemu sendiri.", author: "Anonim" },
+  { text: "Satu hari pada satu waktu.", author: "Anonim" },
+  {
+    text: "Terima kasih, diriku, sudah bertahan sejauh ini.",
+    author: "Anonim",
+  },
+  {
+    text: "Ketenangan datang saat kamu percaya pada dirimu.",
+    author: "Anonim",
+  },
+  { text: "Lakukan dengan hati, hasil akan mengikuti.", author: "Anonim" },
+  { text: "Coba lagi, dengan cara yang lebih lembut.", author: "Anonim" },
+  {
+    text: "Kamu pantas mendapatkan istirahat dan kedamaian.",
+    author: "Anonim",
+  },
+  { text: "Tidak harus besar, yang penting konsisten.", author: "Anonim" },
+  { text: "Bersyukur atas kemajuan kecil hari ini.", author: "Anonim" },
+  { text: "Keberanian adalah memulai meski takut.", author: "Anonim" },
+  { text: "Kebaikan pada diri sendiri adalah kekuatan.", author: "Anonim" },
+  { text: "Hari buruk bukan hidup yang buruk.", author: "Anonim" },
+  { text: "Kamu tumbuh pelan-pelan, dan itu baik.", author: "Anonim" },
+  {
+    text: "Fokus pada langkah selanjutnya, bukan seluruh tangga.",
+    author: "Anonim",
+  },
+  { text: "Doa dan usaha adalah pasangan yang baik.", author: "Anonim" },
+
+  // 20 quotes tambahan (lebih panjang / reflektif beberapa)
+  {
+    text: "Belajar menerima ketidaksempurnaan adalah langkah pertama menuju kebebasan; biarkan diri tumbuh tanpa tekanan yang tidak perlu.",
+    author: "Anonim",
+  },
+  {
+    text: "Ada keindahan dalam proses yang lambat: tiap langkah menanamkan pengalaman yang tidak akan kamu dapatkan jika semua berjalan cepat.",
+    author: "Anonim",
+  },
+  {
+    text: "Saat merasa kehilangan arah, ingat kembali apa yang membuatmu tersenyum dahulu; terkadang jawaban ada pada hal-hal sederhana itu.",
+    author: "Anonim",
+  },
+  {
+    text: "Hargai orang yang menemanimu di saat sunyi, karena kehadiran mereka adalah bukti bahwa kamu tidak benar-benar sendiri.",
+    author: "Anonim",
+  },
+  {
+    text: "Jangan takut mengubah rencana, asal tujuan tetap menuntunmu pada versi dirimu yang lebih baik.",
+    author: "Anonim",
+  },
+  {
+    text: "Ketika beban terasa berat, bagi cerita itu pada seseorang yang kamu percaya; berbagi tidak membuatmu lemah, malah meringankan langkah.",
+    author: "Anonim",
+  },
+  {
+    text: "Sukses bukan tentang siapa paling cepat, melainkan siapa yang tetap bertahan dengan integritas pada setiap langkah.",
+    author: "Anonim",
+  },
+  {
+    text: "Belajar berkata tidak adalah bentuk cinta pada diri sendiri; batas yang sehat membuka ruang untuk kebahagiaan yang lebih tulus.",
+    author: "Anonim",
+  },
+  {
+    text: "Biarkan dirimu berduka ketika perlu, tapi jangan lupa bangkit lagi — kesembuhan seringkali dimulai dengan satu napas panjang.",
+    author: "Anonim",
+  },
+  {
+    text: "Kadang yang paling sulit adalah memulai lagi setelah retak; beri waktu pada proses penyambungan, perlahan namun pasti.",
+    author: "Anonim",
+  },
+  {
+    text: "Bukan beban yang menentukan siapa kamu, melainkan bagaimana kamu memikulnya sambil tetap menjaga hati.",
+    author: "Anonim",
+  },
+  {
+    text: "Mimpi besar butuh ketekunan, tetapi langkah kecil yang konsistenlah yang akhirnya membentuk cerita besar itu.",
+    author: "Anonim",
+  },
+  {
+    text: "Jangan menunda kebahagiaan dengan alasan 'nanti'; hidup berlangsung sekarang, dan momen sederhana pantas dinikmati.",
+    author: "Anonim",
+  },
+  {
+    text: "Saat kau memberi maaf, kau membebaskan diri sendiri dari beban yang tak terlihat; maaf itu hadiah untuk hatimu.",
+    author: "Anonim",
+  },
+  {
+    text: "Tulislah surat untuk masa depanmu sendiri: ingatkan tentang kekuatan yang telah kau tunjukkan hari-hari sulit itu.",
+    author: "Anonim",
+  },
+  {
+    text: "Perubahan besar seringkali berawal dari keputusan kecil yang diambil berulang kali; jangan remehkan kebiasaan baik.",
+    author: "Anonim",
+  },
+  {
+    text: "Jika saat ini kau belum menemukan tempat yang sesuai, ingatkan diri bahwa perjalanan menemukan 'rumah' kadang memerlukan waktu dan keberanian.",
+    author: "Anonim",
+  },
+  {
+    text: "Kritik bisa menjadi cermin — pilihlah cermin yang jujur dan melatihmu, bukan yang mematahkan semangat.",
+    author: "Anonim",
+  },
+  {
+    text: "Kebahagiaan tidak selalu gemerlap; seringkali ia hadir dalam secangkir teh hangat, obrolan singkat, atau tidur yang nyenyak.",
+    author: "Anonim",
+  },
+  {
+    text: "Bertumbuh berarti kadang meninggalkan kebiasaan lama yang nyaman tetapi menghambat; itu wajar dan bagian dari proses menjadi lebih utuh.",
+    author: "Anonim",
+  },
 ];
 
 export default function QuoteBox() {
@@ -96,7 +210,9 @@ export default function QuoteBox() {
         </div>
       )}
       {errorImg && <p className="text-xs text-red-500 mb-2">{errorImg}</p>}
-      <p className="italic text-base sm:text-lg text-gray-800">“{quote.text}”</p>
+      <p className="italic text-base sm:text-lg text-gray-800">
+        “{quote.text}”
+      </p>
       <p className="mt-2 text-xs sm:text-sm text-gray-600">{quote.author}</p>
       <button
         onClick={getNewQuote}
