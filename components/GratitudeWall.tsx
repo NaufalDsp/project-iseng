@@ -2,101 +2,102 @@
 import { useState, useEffect } from "react";
 import ExportNotes from "./ExportNotes";
 
+type Item = { id: string; text: string; createdAt: number };
+
 export default function GratitudeWall({
   username,
 }: {
   username?: string | null;
 }) {
-  const [notes, setNotes] = useState<string[]>([]);
-  const [input, setInput] = useState("");
+  const [items, setItems] = useState<Item[]>([]);
+  const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const uname = username?.trim().toLowerCase() ?? "";
+
   useEffect(() => {
-    let mounted = true;
-    const fetchNotes = async () => {
-      if (!username) return;
-      setLoading(true);
-      setError(null);
+    if (!uname) return;
+    let ignore = false;
+    setLoading(true);
+    (async () => {
       try {
         const res = await fetch(
-          `/api/notes?user=${encodeURIComponent(username)}`,
-          { cache: "no-store" }
+          `/api/gratitude?username=${encodeURIComponent(uname)}`
         );
         if (!res.ok) throw new Error("Gagal memuat catatan");
-        const data: string[] = await res.json();
-        if (mounted) setNotes(data);
+        const data: Item[] = await res.json();
+        if (!ignore) setItems(data);
       } catch (e: unknown) {
-        const msg = e instanceof Error ? e.message : String(e);
-        setError(msg ?? "Terjadi kesalahan");
+        if (!ignore) {
+          const msg = e instanceof Error ? e.message : String(e);
+          setError(msg);
+        }
       } finally {
-        if (mounted) setLoading(false);
+        if (!ignore) setLoading(false);
       }
-    };
-    fetchNotes();
+    })();
     return () => {
-      mounted = false;
+      ignore = true;
     };
-  }, [username]);
+  }, [uname]);
 
-  const addNote = async () => {
-    if (input.trim() === "" || !username) return;
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const t = text.trim();
+    if (!t || !uname) return;
     setError(null);
     try {
-      const res = await fetch("/api/notes", {
+      const res = await fetch("/api/gratitude", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: input.trim(), user: username }),
+        body: JSON.stringify({ username: uname, text: t }),
       });
-      if (!res.ok) {
-        const txt = await res.text();
-        throw new Error(txt || "Gagal menyimpan catatan");
-      }
-      const json = await res.json();
-      const savedNote = json?.note ?? input.trim();
-      setNotes((s) => [...s, savedNote]);
-      setInput("");
+      if (!res.ok) throw new Error("Gagal menambah catatan");
+      const item: Item = await res.json();
+      setItems((prev) => [item, ...prev]);
+      setText("");
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : String(e);
-      setError(msg ?? "Terjadi kesalahan saat menyimpan");
+      setError(msg);
     }
   };
 
   const clearNotes = async () => {
-    if (!username) return;
+    if (!uname) return;
     setError(null);
     try {
       const res = await fetch(
-        `/api/notes?user=${encodeURIComponent(username)}`,
+        `/api/gratitude?username=${encodeURIComponent(uname)}`,
         { method: "DELETE" }
       );
-      if (!res.ok) {
+      if (!res.ok && res.status !== 204) {
         const txt = await res.text();
         throw new Error(txt || "Gagal menghapus catatan");
       }
-      setNotes([]);
+      setItems([]);
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : String(e);
       setError(msg ?? "Terjadi kesalahan saat menghapus");
     }
   };
 
-  // Hapus satu note berdasarkan index
-  const deleteNote = async (index: number) => {
-    if (!username) return;
+  // Hapus satu note berdasarkan id
+  const deleteNote = async (id: string) => {
+    if (!uname) return;
     setError(null);
     try {
       const res = await fetch(
-        `/api/notes/${index}?user=${encodeURIComponent(username)}`,
+        `/api/gratitude/${encodeURIComponent(id)}?username=${encodeURIComponent(
+          uname
+        )}`,
         { method: "DELETE" }
       );
-      if (!res.ok) {
-        // coba ambil pesan error dari body kalau ada
+      if (!res.ok && res.status !== 204) {
         const body = await res.text();
         throw new Error(body || "Gagal menghapus catatan");
       }
-      // update state lokal (atau gunakan notes yang dikembalikan oleh API jika ingin)
-      setNotes((prev) => prev.filter((_, i) => i !== index));
+      setItems((prev) => prev.filter((it) => it.id !== id));
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : String(e);
       setError(msg ?? "Terjadi kesalahan saat menghapus");
@@ -108,25 +109,28 @@ export default function GratitudeWall({
       <h2 className="text-lg sm:text-xl font-semibold mb-2">
         Gratitude Wall 💜
       </h2>
-      <p className="text-gray-600 text-xs sm:text-sm mb-4">
+      <p className="text-gray-600 text-xs font-semibold sm:text-sm mb-4">
         Tulis satu hal kecil yang bikin kamu tersenyum hari ini.
       </p>
 
-      <div className="flex flex-col sm:flex-row gap-2 mb-4 w-full">
+      <form
+        onSubmit={submit}
+        className="flex flex-col sm:flex-row gap-2 mb-4 w-full"
+      >
         <input
           type="text"
-          placeholder="Contoh: Kopi pagi enak ☕"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
+          placeholder="Contoh: Ngopi pagi wenak banget ☕"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
           className="flex-1 border p-2 rounded text-sm sm:text-base w-full"
         />
         <button
-          onClick={addNote}
+          type="submit"
           className="bg-purple-500 text-white px-3 py-2 rounded w-full sm:w-auto text-sm sm:text-base"
         >
           Tambahkan
         </button>
-      </div>
+      </form>
 
       {loading && (
         <p className="text-gray-500 text-sm mb-4">Memuat catatan...</p>
@@ -134,18 +138,18 @@ export default function GratitudeWall({
 
       {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
 
-      {notes.length > 0 ? (
+      {items.length > 0 ? (
         <ul className="mb-4 space-y-1 max-h-48 overflow-y-auto pr-1">
-          {notes.map((note, idx) => (
+          {items.map((item) => (
             <li
-              key={idx}
+              key={item.id}
               className="flex items-center justify-between text-gray-800 text-sm sm:text-base"
             >
-              <span className="mr-2">⭐ {note}</span>
+              <span className="mr-2">⭐ {item.text}</span>
               <button
-                onClick={() => deleteNote(idx)}
+                onClick={() => deleteNote(item.id)}
                 className="ml-2 text-xs text-red-600 hover:opacity-80 px-2 py-1 rounded"
-                aria-label={`Hapus catatan ${idx + 1}`}
+                aria-label={`Hapus catatan ${item.id}`}
               >
                 🗑️
               </button>
@@ -161,7 +165,10 @@ export default function GratitudeWall({
       )}
 
       <div className="flex flex-col sm:flex-row gap-2">
-        <ExportNotes notes={notes} name={username ?? ""} />
+        <ExportNotes
+          notes={items.map((item) => item.text)}
+          name={username ?? ""}
+        />
         <button
           onClick={clearNotes}
           className="bg-red-500 text-white px-3 py-2 rounded w-full sm:w-auto text-sm sm:text-base"

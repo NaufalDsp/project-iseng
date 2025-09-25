@@ -15,7 +15,7 @@ export default function BlossomBackground({
   // base positions supaya bunga tersebar; animasi akan memindahkannya relatif ke base
   const bases = [
     { left: "6%", top: "18%" },
-    { left: "18%", top: "8%" }, 
+    { left: "18%", top: "8%" },
     { left: "34%", top: "24%" },
     { left: "52%", top: "10%" },
     { left: "72%", top: "20%" },

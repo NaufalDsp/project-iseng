@@ -7,11 +7,11 @@ export default function ExportNotes({
   name: string;
 }) {
   const handleExport = () => {
-    const header = `✨ Catatan Semangat untuk ${name} ✨\n\n`;
+    const header = `✨ Catatan Kecil untuk ${name} ✨\n\n`;
     const greeting = `Halo ${name}!\nSemoga hari-harimu penuh warna, tawa, dan semangat baru 🌈💜\n\n`;
     const divider = "------------------------------\n\n";
     const body = notes.map((note, idx) => `⭐ ${note}`).join("\n");
-    const footer = `\n\n------------------------------\nTetaplah percaya diri, ${name}! Kamu luar biasa 🚀\n`;
+    const footer = `\n\n------------------------------\nTetaplah percaya diri, ${name}! Kamu luar biasa\n`;
 
     const content = header + greeting + divider + body + footer;
 
