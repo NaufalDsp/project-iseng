@@ -1,63 +1,56 @@
 import { NextResponse } from "next/server";
-import fs from "fs/promises";
-import path from "path";
+import { sql, ensureSchema } from "@/lib/db";
 
-const DATA_DIR = path.resolve(process.cwd(), "data");
-const DATA_FILE = path.join(DATA_DIR, "notes.json");
+export const runtime = "nodejs";
 
-type NotesMap = Record<string, string[]>;
-
-async function readAll(): Promise<NotesMap> {
+export async function DELETE(req: Request) {
   try {
-    const raw = await fs.readFile(DATA_FILE, "utf-8");
-    const parsed = JSON.parse(raw);
-    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
-      return parsed as NotesMap;
-    }
-  } catch {
-    // file mungkin belum ada
-  }
-  return {};
-}
+    const url = new URL(req.url);
+    const pathname = url.pathname;
+    const parts = pathname.split("/").filter(Boolean); // ["api","notes","<index>"]
+    const notesIdx = parts.findIndex((p) => p === "notes");
+    const indexStr = notesIdx !== -1 ? parts[notesIdx + 1] ?? "" : "";
+    const username =
+      url.searchParams.get("username")?.trim().toLowerCase() ?? "";
 
-async function writeAll(map: NotesMap) {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  await fs.writeFile(DATA_FILE, JSON.stringify(map, null, 2), "utf-8");
-}
-
-// DELETE /api/notes/[index]?user=...
-export async function DELETE(request: Request) {
-  try {
-    const url = new URL(request.url);
-
-    // ambil query param ?user=...
-    const user = url.searchParams.get("user");
-    if (!user) {
-      return NextResponse.json({ error: "Missing user parameter" }, { status: 400 });
+    if (!username) {
+      return NextResponse.json({ error: "Missing username" }, { status: 400 });
     }
 
-    // ambil [index] langsung dari pathname
-    const parts = url.pathname.split("/");
-    const indexStr = parts[parts.length - 1];
     const idx = Number(indexStr);
-
     if (!Number.isFinite(idx) || idx < 0) {
-      return NextResponse.json({ error: "Index invalid" }, { status: 400 });
+      return NextResponse.json({ error: "Index tidak valid" }, { status: 400 });
     }
 
-    const map = await readAll();
-    const notes = map[user] ?? [];
+    await ensureSchema();
 
-    if (idx >= notes.length) {
-      return NextResponse.json({ error: "Index di luar jangkauan" }, { status: 404 });
+    // Ambil id berdasarkan urutan terbaru (DESC) untuk username tsb pada offset = idx
+    const sel = await sql`
+      SELECT id
+      FROM gratitude
+      WHERE lower(username) = ${username}
+      ORDER BY created_at DESC
+      OFFSET ${idx}
+      LIMIT 1;
+    `;
+
+    if (sel.rows.length === 0) {
+      return NextResponse.json(
+        { error: "Index di luar jangkauan" },
+        { status: 404 }
+      );
     }
 
-    // hapus note sesuai index
-    notes.splice(idx, 1);
-    map[user] = notes;
-    await writeAll(map);
+    // remove any: type the row explicitly
+    const [row] = sel.rows as Array<{ id: string }>;
+    const noteId = row.id;
 
-    return NextResponse.json({ success: true, index: idx });
+    const del = await sql`DELETE FROM gratitude WHERE id = ${noteId}::uuid;`;
+    if (del.rowCount === 0) {
+      return NextResponse.json({ error: "Not Found" }, { status: 404 });
+    }
+
+    return new Response(null, { status: 204 });
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : String(e);
     return NextResponse.json({ error: msg ?? "Server error" }, { status: 500 });

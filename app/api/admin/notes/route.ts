@@ -21,3 +21,24 @@ export async function GET() {
     });
   }
 }
+
+export async function DELETE(req: Request) {
+  try {
+    const url = new URL(req.url);
+    const userParam = (url.searchParams.get("username") ?? url.searchParams.get("user") ?? "").trim().toLowerCase();
+    if (!userParam) {
+      return NextResponse.json({ error: "Missing username" }, { status: 400 });
+    }
+
+    await ensureSchema();
+    await sql`DELETE FROM gratitude WHERE lower(username) = ${userParam};`;
+
+    // 204: sukses tanpa body
+    return new Response(null, { status: 204 });
+  } catch (e: unknown) {
+    const msg = e instanceof Error ? e.message : String(e);
+    return new NextResponse(JSON.stringify({ error: msg ?? "Server error" }), {
+      status: 500,
+    });
+  }
+}
