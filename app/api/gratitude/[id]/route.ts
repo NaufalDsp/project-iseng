@@ -3,13 +3,13 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
-// DELETE /api/gratitude/[id]
-export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(req: Request) {
   try {
-    const id = decodeURIComponent(params.id);
+    // ✅ Ambil ID dari URL tanpa params
+    const url = new URL(req.url);
+    const parts = url.pathname.split("/");
+    const id = decodeURIComponent(parts[parts.length - 1]);
+
     if (!id) {
       return NextResponse.json(
         { error: "Missing id parameter" },
@@ -19,14 +19,13 @@ export async function DELETE(
 
     await ensureSchema();
 
-    const url = new URL(req.url);
-    const u = url.searchParams.get("username")?.trim().toLowerCase();
-    if (!u) {
+    const username = url.searchParams.get("username")?.trim().toLowerCase();
+    if (!username) {
       return NextResponse.json({ error: "Missing username" }, { status: 400 });
     }
 
     const result = await sql`
-      DELETE FROM gratitude WHERE id = ${id}::uuid AND username = ${u};
+      DELETE FROM gratitude WHERE id = ${id}::uuid AND username = ${username};
     `;
 
     if (result.rowCount === 0) {
