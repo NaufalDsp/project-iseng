@@ -239,11 +239,16 @@ export default function QuoteBox() {
   return (
     <div className="p-3 sm:p-4 rounded-xl shadow-md bg-white flex flex-col justify-between">
       {imgUrl && !loadingImg && (
-        <img
-          src={imgUrl}
-          alt="Random wholesome"
-          className="rounded-lg w-full h-40 sm:h-48 object-cover mb-3 sm:mb-4 transition-opacity"
-        />
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={imgUrl}
+            alt="Random wholesome"
+            className="rounded-lg w-full h-40 sm:h-48 object-cover mb-3 sm:mb-4 transition-opacity"
+            loading="lazy"
+            decoding="async"
+          />
+        </>
       )}
       {loadingImg && (
         <div className="w-full h-40 sm:h-48 mb-3 sm:mb-4 flex items-center justify-center rounded-lg bg-gray-100 text-xs sm:text-sm text-gray-500">

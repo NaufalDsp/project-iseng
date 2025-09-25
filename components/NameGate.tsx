@@ -22,7 +22,6 @@ export default function NameGate({
       });
     } catch (err) {
       // tidak menghalangi UX, hanya log untuk debugging
-      // eslint-disable-next-line no-console
       console.warn("Gagal membuat user di server:", err);
     }
 

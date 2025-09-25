@@ -41,7 +41,8 @@ export default function HomePage() {
         body: JSON.stringify({ username: usernameKey }),
       });
 
-      if (!res.ok) {
+      // Treat 409 (username already exists) as success to allow re-login
+      if (!res.ok && res.status !== 409) {
         let detail = "";
         try {
           const data = await res.json();
@@ -49,11 +50,9 @@ export default function HomePage() {
         } catch {
           // ignore parse error
         }
-        if (res.status === 409) {
-          alert(`Username sudah dipakai${detail}`);
-          return;
-        }
-        alert(`Gagal menyimpan username. Coba lagi${detail ? ` (${detail})` : "."}`);
+        alert(
+          `Gagal menyimpan username. Coba lagi${detail ? ` (${detail})` : "."}`
+        );
         return;
       }
     } catch (e: unknown) {

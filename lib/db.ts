@@ -7,7 +7,6 @@ if (!process.env.POSTGRES_URL && process.env.DATABASE_URL) {
 
 // Log bantuan jika env tidak ada
 if (!process.env.POSTGRES_URL) {
-  // eslint-disable-next-line no-console
   console.error(
     "Missing POSTGRES_URL. Set di .env.local atau link Vercel Postgres. " +
       "Jika hanya punya DATABASE_URL, ini sudah otomatis difallback."

@@ -26,10 +26,10 @@ async function writeAll(map: NotesMap) {
 // DELETE /api/admin/users/[user]
 export async function DELETE(
   _request: Request,
-  { params }: { params: { user: string } }
+  context: { params: { user: string } }
 ) {
   try {
-    const user = decodeURIComponent(params.user || "");
+    const user = decodeURIComponent(context.params.user || "");
     if (!user) {
       return new NextResponse(JSON.stringify({ error: "Missing user parameter" }), { status: 400 });
     }
