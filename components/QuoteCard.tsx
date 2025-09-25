@@ -148,6 +148,47 @@ const quotes = [
     text: "Bertumbuh berarti kadang meninggalkan kebiasaan lama yang nyaman tetapi menghambat; itu wajar dan bagian dari proses menjadi lebih utuh.",
     author: "Anonim",
   },
+  // Tambahan 10 kutipan bermakna
+  {
+    text: "Kesunyian adalah sahabat yang setia, ia mengajarkan kita untuk mendengar suara hati.",
+    author: "Anonim",
+  },
+  {
+    text: "Kebahagiaan sejati datang dari dalam diri, bukan dari apa yang kita miliki.",
+    author: "Anonim",
+  },
+  {
+    text: "Ketika satu pintu tertutup, pintu lain akan terbuka. Tetaplah berharap.",
+    author: "Anonim",
+  },
+  {
+    text: "Jangan takut untuk bermimpi besar, karena mimpi adalah awal dari segala pencapaian.",
+    author: "Anonim",
+  },
+  {
+    text: "Hidup adalah perjalanan panjang, nikmati setiap langkahnya.",
+    author: "Anonim",
+  },
+  {
+    text: "Kegagalan adalah kesempatan untuk memulai lagi dengan lebih bijaksana.",
+    author: "Anonim",
+  },
+  {
+    text: "Cinta adalah kekuatan terbesar yang bisa mengubah dunia.",
+    author: "Anonim",
+  },
+  {
+    text: "Jangan pernah meremehkan kekuatan dari sebuah senyuman.",
+    author: "Anonim",
+  },
+  {
+    text: "Setiap hari adalah kesempatan untuk menjadi lebih baik dari hari sebelumnya.",
+    author: "Anonim",
+  },
+  {
+    text: "Kebahagiaan adalah pilihan, pilihlah untuk bahagia setiap hari.",
+    author: "Anonim",
+  },
 ];
 
 export default function QuoteBox() {
