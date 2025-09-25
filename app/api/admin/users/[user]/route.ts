@@ -11,7 +11,8 @@ async function readAll(): Promise<NotesMap> {
   try {
     const raw = await fs.readFile(DATA_FILE, "utf-8");
     const parsed = JSON.parse(raw);
-    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) return parsed as NotesMap;
+    if (parsed && typeof parsed === "object" && !Array.isArray(parsed))
+      return parsed as NotesMap;
   } catch {
     // file mungkin belum ada
   }
@@ -26,17 +27,23 @@ async function writeAll(map: NotesMap) {
 // DELETE /api/admin/users/[user]
 export async function DELETE(
   _request: Request,
-  context: { params: { user: string } }
+  { params }: { params: Record<string, string> }
 ) {
   try {
-    const user = decodeURIComponent(context.params.user || "");
+    const user = decodeURIComponent(params?.user ?? "");
     if (!user) {
-      return new NextResponse(JSON.stringify({ error: "Missing user parameter" }), { status: 400 });
+      return new NextResponse(
+        JSON.stringify({ error: "Missing user parameter" }),
+        { status: 400 }
+      );
     }
 
     const map = await readAll();
     if (!Object.prototype.hasOwnProperty.call(map, user)) {
-      return new NextResponse(JSON.stringify({ error: "User tidak ditemukan" }), { status: 404 });
+      return new NextResponse(
+        JSON.stringify({ error: "User tidak ditemukan" }),
+        { status: 404 }
+      );
     }
 
     delete map[user];
@@ -45,6 +52,8 @@ export async function DELETE(
     return NextResponse.json({ success: true, user });
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : String(e);
-    return new NextResponse(JSON.stringify({ error: msg ?? "Server error" }), { status: 500 });
+    return new NextResponse(JSON.stringify({ error: msg ?? "Server error" }), {
+      status: 500,
+    });
   }
 }
