@@ -1,36 +1,15 @@
 import { NextResponse } from "next/server";
-import fs from "fs/promises";
-import path from "path";
+import { sql, ensureSchema } from "@/lib/db";
 
-const DATA_DIR = path.resolve(process.cwd(), "data");
-const DATA_FILE = path.join(DATA_DIR, "notes.json");
+export const runtime = "nodejs";
 
-type NotesMap = Record<string, string[]>;
-
-async function readAll(): Promise<NotesMap> {
-  try {
-    const raw = await fs.readFile(DATA_FILE, "utf-8");
-    const parsed = JSON.parse(raw);
-    if (parsed && typeof parsed === "object" && !Array.isArray(parsed))
-      return parsed as NotesMap;
-  } catch {
-    // file mungkin belum ada
-  }
-  return {};
-}
-
-async function writeAll(map: NotesMap) {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  await fs.writeFile(DATA_FILE, JSON.stringify(map, null, 2), "utf-8");
-}
-
-// DELETE /api/admin/users/[user]
 export async function DELETE(req: Request) {
   try {
     const { pathname } = new URL(req.url);
     const parts = pathname.split("/").filter(Boolean); // ["api","admin","users","<user>"]
     const usersIdx = parts.findIndex((p) => p === "users");
-    const user = usersIdx !== -1 ? decodeURIComponent(parts[usersIdx + 1] ?? "") : "";
+    const raw = usersIdx !== -1 ? parts[usersIdx + 1] ?? "" : "";
+    const user = decodeURIComponent(raw).trim();
 
     if (!user) {
       return new NextResponse(
@@ -39,18 +18,19 @@ export async function DELETE(req: Request) {
       );
     }
 
-    const map = await readAll();
-    if (!Object.prototype.hasOwnProperty.call(map, user)) {
+    await ensureSchema();
+    const norm = user.toLowerCase();
+    const result = await sql`DELETE FROM users WHERE lower(username) = ${norm};`;
+
+    if (result.rowCount === 0) {
       return new NextResponse(
         JSON.stringify({ error: "User tidak ditemukan" }),
         { status: 404 }
       );
     }
 
-    delete map[user];
-    await writeAll(map);
-
-    return NextResponse.json({ success: true, user });
+    // ON DELETE CASCADE pada gratitude akan menghapus catatan user ini
+    return new Response(null, { status: 204 });
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : String(e);
     return new NextResponse(JSON.stringify({ error: msg ?? "Server error" }), {
