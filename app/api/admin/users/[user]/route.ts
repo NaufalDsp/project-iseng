@@ -25,12 +25,13 @@ async function writeAll(map: NotesMap) {
 }
 
 // DELETE /api/admin/users/[user]
-export async function DELETE(
-  _request: Request,
-  { params }: { params: Record<string, string> }
-) {
+export async function DELETE(req: Request) {
   try {
-    const user = decodeURIComponent(params?.user ?? "");
+    const { pathname } = new URL(req.url);
+    const parts = pathname.split("/").filter(Boolean); // ["api","admin","users","<user>"]
+    const usersIdx = parts.findIndex((p) => p === "users");
+    const user = usersIdx !== -1 ? decodeURIComponent(parts[usersIdx + 1] ?? "") : "";
+
     if (!user) {
       return new NextResponse(
         JSON.stringify({ error: "Missing user parameter" }),
