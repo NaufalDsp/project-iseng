@@ -29,6 +29,8 @@ export default function NameGate({
     onSubmit(trimmed);
   }
 
+
+  
   return (
     // parent centering container: cukup tinggi untuk memusatkan tanpa memenuhi layar
     <div className="flex items-center justify-center min-h-[calc(100vh-6rem)] px-4">
