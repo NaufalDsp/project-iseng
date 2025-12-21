@@ -19,7 +19,6 @@ export default function NameGate({
       return;
     const trimmed =
       name.trim();
-
     // coba buat user di server supaya admin bisa melihatnya
     try {
       await fetch(
